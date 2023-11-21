@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy CS:GO Draw</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Fantasy CS:GO Draw</h1>
+
+    <div id="players-container" style="align-items: center;">
+        <div>
+            <h2>Generated players:</h2>
+            <ul id="selected-players" class="player-list">
+                {% for player in generated_team %}
+                    <li>{{ player[0] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <button id="draw-button">Create a team!</button>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#draw-button").click(function() {
+            $.ajax({
+                type: 'POST',
+                url: '/draw',
+                success: function(response) {
+                    if (response.success) {
+                        $("#selected-players").empty();
+                        $.each(response.generated_team, function(index, player) {
+                            $("#selected-players").append("<li>" + "Name: " + player[0] + "</li>");
+                            $("#selected-players").append("<li>" + "Cost: " + player[1] + "</li><br>");
+                            var imgElement = $("<img>").attr("src", player[2]);
+                            $("#selected-players").append(imgElement);
+                        });
+                        $("#selected-players").append("<li>Total cost: " + response.total_cost + "</li>");
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
