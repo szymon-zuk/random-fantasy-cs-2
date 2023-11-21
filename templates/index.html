@@ -14,7 +14,7 @@
             <h2>Generated players:</h2>
             <ul id="selected-players" class="player-list">
                 {% for player in generated_team %}
-                    <li>{{ player[0] }}</li>
+                    <li>{{ player }}</li>
                 {% endfor %}
             </ul>
         </div>
@@ -37,8 +37,15 @@
                             $("#selected-players").append("<li>" + "Cost: " + player[1] + "</li><br>");
                             var imgElement = $("<img>").attr("src", player[2]);
                             $("#selected-players").append(imgElement);
-                        });
-                        $("#selected-players").append("<li>Total cost: " + response.total_cost + "</li>");
+                            var statsList = $("<ul></ul>");
+                            $.each(player[3], function(statName, statValue) {
+                            statsList.append("<li>" + statName + ": " + statValue + "</li>");
+                            });
+                            $("#selected-players").append(statsList);
+    
+                            $("#selected-players").append("<br>");
+                            });
+                        $("#selected-players").append("<li><b>Total cost: " + response.total_cost + "</b></li>");
                     } else {
                         alert(response.message);
                     }
