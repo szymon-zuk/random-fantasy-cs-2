@@ -1,7 +1,7 @@
 import requests
 import random
 
-URL = "https://www.hltv.org/fantasy/412/leagues/161389/join/json"  # JSON sent on get request when joining a specific fantasy event
+URL = "https://www.hltv.org/fantasy/414/leagues/161600/join/json"  # JSON sent on get request when joining a specific fantasy event
 response = requests.get(URL)
 
 if response.status_code == 200:
